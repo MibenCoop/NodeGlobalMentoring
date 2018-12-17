@@ -7,6 +7,7 @@ import { CSV2JSON } from "./utils";
 const readFileAsync = promisify(fs.readFile);
 
 export default class Importer {
+	// Const for strings
 	constructor() {
 		console.log("Initialize step: Importer was initialized".grey);
 	}
@@ -18,6 +19,8 @@ export default class Importer {
 	}
 }
 
+// Better to implement this in method of class Importer something like listen/stopListen
+// Also there's better way of using data emmiter (Dependency injection)
 let importer = new Importer();
 dataEmitter.on("changed", (path) => {
 	importer.import(path)
