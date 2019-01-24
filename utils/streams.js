@@ -1,5 +1,5 @@
+#!/usr/bin/env node
 const program = require("commander");
-const through = require('through2');
 const fs = require('fs');
 const CSV2JSON = require ("../handlers/utils");
 const { Transform } = require('stream');
@@ -16,11 +16,8 @@ function reverse() {
             process.stdout.write(`data: ${res}`);
         }
     })
-    process.stdin.on('end', () => {
-        process.stdout.write('end');
-    })
-
 }
+
 function transform() {
     process.stdin.setEncoding('utf8');
     process.stdin.on('readable', () => {
@@ -30,10 +27,37 @@ function transform() {
             process.stdout.write(`data: ${res}`);
         }
     })
-    process.stdin.on('end', () => {
-        process.stdout.write('end');
-    })
 }
+
+function outputFile(pathFile) {
+    let currentFile = `${__dirname}/${pathFile}`;
+    handleFile(currentFile);
+    const reader = fs.createReadStream(currentFile);
+    reader.pipe(process.stdout);
+}
+
+function convertFromFile(pathFile) {
+    console.log('convertFromFile')
+    let currentFile = `${__dirname}/${pathFile}`;
+    const reader = fs.createReadStream(currentFile);
+    reader.pipe(getJsonFromCSV)
+    .pipe(process.stdout);
+}
+function convertToFile(pathFile) {
+    console.log('convertToFile')
+    let currentFile = `${__dirname}/${pathFile}`;
+    let destinationFile = `${__dirname}/output.json`;
+    const reader = fs.createReadStream(currentFile);
+    reader.pipe(getJsonFromCSV)
+    .pipe(fs.createWriteStream(destinationFile));
+}
+const getJsonFromCSV = new Transform({
+    transform(chunk, encoding, callback) {
+        this.push(CSV2JSON(chunk.toString()));
+        callback();
+    }
+});
+
 function handleFile(file) {
     if (fs.existsSync(file) === false) {
         fs.writeFile(file, '', (err) => {
@@ -42,35 +66,6 @@ function handleFile(file) {
         })
     }
 }
-function outputFile(pathFile) {
-    let currentFile = `${__dirname}/${pathFile}`;
-    handleFile(currentFile);
-    const reader = fs.createReadStream(currentFile);
-    reader.pipe(process.stdout);
-}
-
-const upperCaseTr = new Transform({
-    transform(chunk, encoding, callback) {
-      this.push(CSV2JSON(chunk.toString()));
-      callback();
-    }
-});
-function convertFromFile(pathFile) {
-    console.log('convertFromFile')
-    let currentFile = `${__dirname}/${pathFile}`;
-    const reader = fs.createReadStream(currentFile);
-    reader.pipe(upperCaseTr)
-          .pipe(process.stdout);
-}
-function convertToFile(pathFile) {
-    console.log('convertToFile')
-    let currentFile = `${__dirname}/${pathFile}`;
-    let destinationFile = `${__dirname}/output.json`;
-    const reader = fs.createReadStream(currentFile);
-    reader.pipe(upperCaseTr)
-          .pipe(fs.createWriteStream(destinationFile));
-}
-
  
 /* * * **** CODE WHICH IMPLEMENTS COMMAND LINE INTERACTION **** * */
 program
@@ -84,27 +79,33 @@ program
                 transform();
                 break;
             case 'outputFile': 
-                console.log('req.file', req.file);
-                outputFile(req.file);
+                if (req.file === undefined || req.file === true) {
+                    console.log("For this operation you need to pass file name")
+                } else {
+                    outputFile(req.file);
+                }
                 break;
             case 'convertFromFile':
-                convertFromFile(req.file);
+                if (req.file === undefined || req.file === true) {
+                    console.log("For this operation you need to pass file name")
+                } else {
+                    convertFromFile(req.file);
+                }
                 break;
             case 'convertToFile':
-                convertToFile(req.file)
+                if (req.file === undefined || req.file === true) {
+                    console.log("For this operation you need to pass file name")
+                } else {
+                    convertToFile(req.file)
+                }
                 break;
             default:
-                console.log("Sorry, we haven't found matches")
+                program.outputHelp();
+                throw new Error("Matches didn't found");
         } 
     });
- 
+
 program
     .option('-f, --file [optional]', 'File name' )
-    .action(() => {
-        console.log('file');
-    });
-
 program
     .parse(process.argv);
-
-// console.log('!!', program);
