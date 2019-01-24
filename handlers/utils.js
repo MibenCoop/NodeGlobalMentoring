@@ -49,7 +49,7 @@ function CSVToArray(strData, strDelimiter) {
 	// Return the parsed data.
 	return (arrData);
 }
-export function CSV2JSON(csv) {
+module.exports = function CSV2JSON(csv) {
 	var array = CSVToArray(csv);
 	var objArray = [];
 	for (var i = 1; i < array.length; i++) {
@@ -62,6 +62,5 @@ export function CSV2JSON(csv) {
 
 	var json = JSON.stringify(objArray);
 	var str = json.replace(/},/g, "},\r\n");
-
 	return str;
 }
