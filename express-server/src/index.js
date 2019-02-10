@@ -2,6 +2,7 @@ import app from './app';
 import cookieParser from 'cookie-parser';
 import queryString from 'query-string';
 
+
 const port = process.env.PORT || 3100;
 app.use(cookieParser());
 app.use(function (req, res, next) {
@@ -19,4 +20,9 @@ app.get('/', function(req, res) {
         req.params.parsedCookies = req.cookies;
     }
 });
+
+import products from './resourses/products/router';
+import users from './resourses/users/router';
+app.use('/api/products', products);
+app.use('/api/users', users);
 app.listen(port, () => console.log(`App listening on port ${port}!`))
