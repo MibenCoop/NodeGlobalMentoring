@@ -23,6 +23,8 @@ app.get('/', function(req, res) {
 
 import products from './resourses/products/router';
 import users from './resourses/users/router';
+import auth from './resourses/apis/router'
 app.use('/api/products', products);
 app.use('/api/users', users);
+app.use('/api/auth', auth);
 app.listen(port, () => console.log(`App listening on port ${port}!`))

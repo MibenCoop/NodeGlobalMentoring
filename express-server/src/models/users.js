@@ -2,23 +2,27 @@ export default {
     users: [
         {
             id: 1,
-            firstName: "John",
-            secondName: "Doe"
+            username: "JohnDoe1",
+            email: "first@gmail.com",
+            pwd: "1234"
         },
         {
             id: 2,
-            firstName: "John1",
-            secondName: "Doe1"
+            username: "JohnDoe2",
+            email: "second@gmail.com",
+            pwd: "1234"
         },
         {
             id: 3,
-            firstName: "John2",
-            secondName: "Doe2"
+            username: "JohnDoe3",
+            email: "third@gmail.com",
+            pwd: "1234"
         },
         {
             id: 4,
-            firstName: "John3",
-            secondName: "Doe3"
+            username: "JohnDoe4",
+            email: "fourth@gmail.com",
+            pwd: "1234"
         },
     ]
 }
