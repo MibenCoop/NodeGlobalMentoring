@@ -1,4 +1,6 @@
 import jwt from 'jsonwebtoken';
+
+
 export function checkToken(req, res, next) {
     let token = req.headers["x-access-token"];
     if (token) {
@@ -12,3 +14,4 @@ export function checkToken(req, res, next) {
         });
     }
 }
+
