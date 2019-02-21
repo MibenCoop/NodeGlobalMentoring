@@ -38,7 +38,9 @@ app.use('/api/products', products);
 app.use('/api/users', users);
 app.use('/api/auth', auth);
 // app.use('/api', authorization);
-app.get('/api/login', passport.authenticate('facebook'));
+app.get('/api/login', passport.authenticate('facebook'), (req, res) => {
+    console.log('done');
+});
 app.get('/return', 
   passport.authenticate('facebook', { failureRedirect: '/login' }),
   function(req, res) {
