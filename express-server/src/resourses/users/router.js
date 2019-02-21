@@ -1,9 +1,9 @@
 import express from 'express';
-import usersJSON from '../../models/users';
 const router = express.Router();
-router.get('/', (req, res) => {
-    const parsedUsers = JSON.stringify(usersJSON);
-    res.send(parsedUsers);
+import users from '../../models/users';
+import { checkToken } from '../../common/utils';
+router.get('/', checkToken, (req, res) => {
+    res.send(users);
 })
 
 export default router;
