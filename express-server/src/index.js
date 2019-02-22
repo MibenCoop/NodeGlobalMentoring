@@ -2,7 +2,16 @@ import app from './app';
 import cookieParser from 'cookie-parser';
 import queryString from 'query-string';
 import passport from 'passport';
-
+import sequelize from './common/database';
+sequelize
+    .authenticate()
+    .then(() => 
+    {
+        console.log('Success');
+    })
+    .catch(err => {
+        console.log('err', err);
+    })
 
 const port = process.env.PORT || 3100;
 app.use(cookieParser());
