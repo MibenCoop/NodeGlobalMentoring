@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon --exec babel-node --presets babel-preset-env,babel-preset-stage-2 src/app.js",
-    "express-server": "nodemon --exec babel-node --presets babel-preset-env,babel-preset-stage-2 express-server/src/index.js",
+    "express-server": "nodemon --exec babel-node --presets babel-preset-env,babel-preset-stage-2 express-server/index.js",
     "test": ""
   },
   "author": "Vitalii Belmach <vitalii_belmach@epam.com>",
