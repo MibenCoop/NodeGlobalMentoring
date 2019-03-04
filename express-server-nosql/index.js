@@ -8,7 +8,7 @@ import index from './routes/index';
 import passportLocal from './config/passportLocal';
 
 
-mongoose.connect('mongodb://localhost:27017/myapp');
+mongoose.connect('mongodb://localhost:27017/nodeGlobalMentoring');
 let db = mongoose.connection;
 //Check connection
 db.once('open', () => {

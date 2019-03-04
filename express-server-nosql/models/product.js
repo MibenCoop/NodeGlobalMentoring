@@ -1,13 +1,13 @@
-'use strict';
-export default (sequelize, DataTypes) => {
-	const Product = sequelize.define('Product', {
-		name: DataTypes.STRING,
-		brand: DataTypes.STRING,
-		price: DataTypes.INTEGER,
-		reviews: DataTypes.STRING
-	}, {});
-	Product.associate = function(models) {
-		// associations can be defined here
-	};
-	return Product;
-};
+import { Schema } from 'mongoose';
+import mongoose from 'mongoose';
+
+const productSchema = new Schema({
+	'id': Number,
+	'name': String,
+	'brand': String,
+	'price': Number,
+	'reviews': String
+});
+
+export default mongoose.model('Product', productSchema);
+
