@@ -3,22 +3,26 @@ import User from '../models/user';
 export default {
 	getAll(req, res) {
 		let user = new User();
-		user.firstName = 'John';
-		user.lastName = 'Doe';
-		user.save((err)=> {
-			if (err) {
-				console.log(err);
-			} else {
-				console.log('good');
-			}
-		});
-		console.log('!!!!');
 		User.find((err, users) => {
 			if (err) {
 				console.log('err', err);
 			}
-			console.log('users', users);
 			res.send(users);
+		});
+	},
+	deleteUserById(req, res) {
+		let query = { '_id': req.params.id };
+		User.find(query, (err, user) => {
+			if (user.length === 0 ) {
+				res.send('Database does not contain item with such ID');
+			} else {
+				if (err) {
+					console.log('err', err);
+				}
+				User.remove(query, (err) => {
+					res.send('Success');
+				});
+			}
 		});
 	}
 };

@@ -10,7 +10,7 @@ export default {
 		});
 	},
 	getById(req, res) {
-		Product.find({ 'id': req.params.id }, (err, product) => {
+		Product.find({ '_id': req.params.id }, (err, product) => {
 			if (err) {
 				console.log('err', err);
 			} 
@@ -18,8 +18,7 @@ export default {
 		});
 	},
 	getReviewsByProductId(req, res) {
-		console.log('req', req.params);
-		Product.find({ 'id': req.params.id }, (err, product) => {
+		Product.find({ '_id': req.params.id }, (err, product) => {
 			if (err) {
 				console.log('err', err);
 			} 
@@ -32,7 +31,6 @@ export default {
 			.estimatedDocumentCount()
 			.then(count => {
 				let product = new Product();
-				product.id = count;
 				product.name = name;
 				product.brand = brand;
 				product.price = price;
@@ -40,6 +38,21 @@ export default {
 				product.save();
 				res.send(product);
 			});
+	},
+	deleteProductById(req, res) {
+		let query = { '_id': req.params.id };
+		Product.find(query, (err, product) => {
+			if (product.length === 0 ) {
+				res.send('Database does not contain item with such ID');
+			} else {
+				if (err) {
+					console.log('err', err);
+				}
+				Product.remove(query, (err) => {
+					res.send('Success');
+				});
+			}
+		});
 	}
 };
     

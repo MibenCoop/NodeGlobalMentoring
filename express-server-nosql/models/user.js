@@ -2,7 +2,6 @@ import { Schema } from 'mongoose';
 import mongoose from 'mongoose';
 
 const userSchema = new Schema({
-	'user_id': Number,
 	'firstName': String,
 	'lastName': String,
 	'email': String,
