@@ -13,7 +13,10 @@ export function checkToken(req, res, next) {
 			}
 		});
 	} else {
-		res.status(403).send({ success: false, message: 'Missing token' });
+		res.status(403).send({
+			success: false,
+			message: 'Missing token'
+		});
 	}
 }
 

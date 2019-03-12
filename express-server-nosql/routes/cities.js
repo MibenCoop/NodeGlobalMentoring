@@ -6,5 +6,5 @@ router.get('/random', City.getRandomCity);
 router.get('', City.getAll);
 router.put('/:id', City.changeCity);
 router.post('', City.setCity);
-router.delete('', City.deleteCity);
+router.delete('/:id', City.deleteCity);
 export default router;

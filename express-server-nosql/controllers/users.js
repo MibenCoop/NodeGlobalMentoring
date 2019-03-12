@@ -2,27 +2,29 @@ import User from '../models/user';
 
 export default {
 	getAll(req, res) {
-		let user = new User();
-		User.find((err, users) => {
-			if (err) {
+		User
+			.find()
+			.catch(err => {
 				console.log('err', err);
-			}
-			res.send(users);
-		});
+				res.send('Something goes wrong')
+			})
+			.then(users => res.send(users));
 	},
 	deleteUserById(req, res) {
-		let query = { '_id': req.params.id };
-		User.find(query, (err, user) => {
-			if (user.length === 0 ) {
-				res.send('Database does not contain item with such ID');
-			} else {
-				if (err) {
-					console.log('err', err);
-				}
-				User.remove(query, (err) => {
-					res.send('Success');
-				});
-			}
-		});
+		let query = {
+			'_id': req.params.id
+		};
+		User
+			.find()
+			.catch(err => {
+				console.log('err', err);
+				res.send('Something goes wrong')
+			})
+			.then(
+				User
+				.remove(query)
+				.catch(err => console.log('err', err))
+				.then(() => res.send('Success'))
+			)
 	}
 };
