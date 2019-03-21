@@ -1,11 +1,13 @@
-import { Schema } from 'mongoose';
+import {
+	Schema
+} from 'mongoose';
 import mongoose from 'mongoose';
 
 const citySchema = new Schema({
 	'name': String,
-	'coutry': String,
+	'country': String,
 	'capital': Boolean,
-	'location':  {
+	'location': {
 		'lat': Number,
 		'long': Number
 	}
