@@ -1,0 +1,167 @@
+swagger: '2.0'
+info:
+  description: Node JS Mentoring
+  version: 1.0.0
+  title: Simple API
+  # put the contact info for your development or API team
+  contact:
+    email: vitalii_belmach@epam.com
+
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+# tags are used for organizing operations
+
+tags:
+- name: users
+  description: Operations available to regular developers
+paths:
+  /cities:
+    get:
+      tags:
+      - users
+      summary: searches cities
+      operationId: searchCity
+      description: |
+        By passing in the appropriate options, you can search for
+        available city in the system
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: searchString
+        description: pass an optional search string for looking up inventory
+        required: false
+        type: string
+      - in: query
+        name: skip
+        description: number of records to skip for pagination
+        type: integer
+        format: int32
+        minimum: 0
+      - in: query
+        name: limit
+        description: maximum number of records to return
+        type: integer
+        format: int32
+        minimum: 0
+        maximum: 50
+      responses:
+        200:
+          description: search results matching criteria
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/City'
+        400:
+          description: bad input parameter
+    post:
+      tags:
+      - users
+      summary: adds an city
+      operationId: addCity
+      description: Adds an item to the system
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: cityItem
+        description: City item to add
+        schema:
+          $ref: '#/definitions/City'
+      responses:
+        201:
+          description: item created
+        400:
+          description: invalid input, object invalid
+        409:
+          description: an existing item already exists
+  /cities/{cityId}:
+    put:
+      tags:
+      - users
+      summary: Update an existing city
+      operationId: updateCity
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: body
+        name: body
+        description: Pet object that needs to be added to the store
+        required: true
+        schema:
+          $ref: '#/definitions/City'
+      - name: cityId
+        in: path
+        description: city id to delete
+        required: true
+        type: integer
+        format: int64
+      responses:
+        400:
+          description: Invalid ID supplied
+        404:
+          description: City not found
+        405:
+          description: Validation exception
+    delete:
+      tags:
+      - users
+      summary: Deletes a city
+      operationId: deleteCity
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: api_key
+        in: header
+        required: false
+        type: string
+      - name: cityId
+        in: path
+        description: City id to delete
+        required: true
+        type: integer
+        format: int64
+      responses:
+        400:
+          description: Invalid ID supplied
+        404:
+          description: City not found
+    
+definitions:
+  City:
+    type: object
+    required:
+    - name
+    - country
+    - capital
+    - location
+    properties:
+      id:
+        type: string
+        example: "Brest"
+      country:
+        type: string
+        example: "Belarus"
+      capital:
+        type: boolean
+        example: false
+      location:
+        type: object
+        example: "{ lat: 52, long: 23 }"
+# Added by API Auto Mocking Plugin
+# host: localhost:3010
+# basePath: /api
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+basePath: /MibenCoop/nodeMentoringProgram/1.0.0
+schemes:
+ - https
